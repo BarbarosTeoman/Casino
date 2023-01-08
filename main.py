@@ -1,1 +1,1 @@
-print("apple")
+print("armut")
