@@ -9,4 +9,3 @@ game = Game(player, dealer)
 
 print("Welcome to Blackjack!")
 print()
-game.start_game()
