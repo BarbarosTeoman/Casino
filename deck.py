@@ -3,27 +3,27 @@ from card import Card
 
 
 class Deck:
+
+    allCards = []
+
     def __init__(self):
         pass
 
     @staticmethod
     def create_deck():
-        global allCards
-        allCards = []
         for value1 in Card.SUIT_SYMBOLS.values():
             for value2 in Card.VALUE_NAMES.values():
-                allCards.append(f"{value2} {value1}")
-        return allCards
+                Deck.allCards.append(f"{value2}{value1}")
+        return Deck.allCards
 
     @staticmethod
     def shuffle():
-        Deck.create_deck()
-        random.shuffle(allCards)
-        return allCards
+        random.shuffle(Deck.allCards)
+        return Deck.allCards
 
     def deal(self, num_cards):
-        pass
+        dealtCards = Deck.allCards[:num_cards]
+        for Cards in dealtCards:
+            Deck.allCards.remove(Cards)
+        return dealtCards
 
-
-deck = Deck()
-print(deck.shuffle())
