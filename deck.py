@@ -26,4 +26,3 @@ class Deck:
         for Cards in dealtCards:
             Deck.allCards.remove(Cards)
         return dealtCards
-
