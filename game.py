@@ -14,12 +14,30 @@ class Game:
 
     @staticmethod
     def value(card):
-        if card[0] in ["T", "K", "Q", "J"]:
-            return 10
-        elif card[0] == "A":
-            return 11
+        value = 0
+        if any("A" in sub for sub in card):
+            listOfA = []
+            for i in card:
+                if i[0] == "A":
+                    listOfA.append(i[0])
+            for i in card:
+                if i[0] in ["T", "K", "Q", "J"]:
+                    value += 10
+                elif i[0] != "A":
+                    value += int(i[0])
+            if value + (len(listOfA) * 11) <= 21:
+                return value + (len(listOfA) * 11)
+            elif value + 11 + (len(listOfA) - 1) * 1 <= 21:
+                return value + 11 + (len(listOfA) - 1) * 1
+            else:
+                return value + (len(listOfA))
         else:
-            return int(card[0])
+            for i in card:
+                if i[0] in ["T", "K", "Q", "J"]:
+                    value += 10
+                else:
+                    value += int(i[0])
+            return value
 
     def start_game(self):
         while self.player.balance > 0:
@@ -46,12 +64,10 @@ class Game:
                 self.deck.create_deck()
                 self.deck.shuffle()
                 self.playerCards = self.deck.deal(2)
-                for i in self.playerCards:
-                    self.playerCardValue.append(Game.value(i))
+                self.playerCardValue.append(Game.value(self.playerCards))
                 newPlayerCards = ", ".join(self.playerCards)
                 self.dealerCards = self.deck.deal(2)
-                for i in self.dealerCards:
-                    self.dealerCardValue.append(Game.value(i))
+                self.dealerCardValue.append(Game.value(self.dealerCards))
                 newDealerCards = ", ".join(self.dealerCards)
                 print(f"You are dealt: {newPlayerCards}")
                 print(f"The dealer is dealt: {newDealerCards[:2]}, Unknown")
@@ -64,9 +80,11 @@ class Game:
                             f"You both have blackjacks, the dealer has won. You lose ${self.bet}."
                         )
                         end = True
+                        self.player.balance -= self.bet
                     else:
                         print(f"You won ${1.5*self.bet} :)")
                         end = True
+                        self.player.balance += 1.5*self.bet
 
                 if self.dealerCards[0][0] == "A" and end == False:
                     if self.player.balance > 1.5 * self.bet:
@@ -79,17 +97,20 @@ class Game:
                                 print("You got your money back.")
                                 end = True
                             print("There is no blackjack, the game keeps going.")
+                            self.bet *= 1.5
                         else:
                             if sum(self.dealerCardValue) == 21:
                                 print("The dealer has blackjack.")
                                 print(f"You lost ${1.5 * self.bet} :(")
                                 end = True
+                                self.player.balance -= self.bet
                     else:
                         print("You don't have enough money to insure.")
                         if sum(self.dealerCardValue) == 21:
                             print("The dealer has blackjack.")
                             print(f"You lost ${self.bet} :(")
                             end = True
+                            self.player.balance -= self.bet
                         else:
                             print("There is no blackjack, the game keeps going.")
 
@@ -104,7 +125,8 @@ class Game:
                         doubling = False
                         newCard = Hand.add_to_hand()
                         self.playerCards += newCard
-                        self.playerCardValue.append(Game.value(newCard[0]))
+                        self.playerCardValue.pop()
+                        self.playerCardValue.append(Game.value(self.playerCards))
                         newPlayerCards = ", ".join(self.playerCards)
                         print(f"You now have: {newPlayerCards}")
                         if sum(self.playerCardValue) > 21:
@@ -119,7 +141,10 @@ class Game:
                                 newCard = Hand.deck.deal(1)[:2]
                                 print(f"Dealer hits and is dealt: {newCard[0]}")
                                 self.dealerCards += newCard
-                                self.dealerCardValue.append(Game.value(newCard[0]))
+                                self.dealerCardValue.pop()
+                                self.dealerCardValue.append(
+                                    Game.value(self.dealerCards)
+                                )
                                 newDealerCards = ", ".join(self.dealerCards)
                                 print(f"The dealer has: {newDealerCards}")
                                 if sum(self.dealerCardValue) > 21:
@@ -156,7 +181,8 @@ class Game:
                             newCard = Hand.deck.deal(1)[:2]
                             print(f"Dealer hits and is dealt: {newCard[0]}")
                             self.dealerCards += newCard
-                            self.dealerCardValue.append(Game.value(newCard[0]))
+                            self.dealerCardValue.pop()
+                            self.dealerCardValue.append(Game.value(self.dealerCards))
                             newDealerCards = ", ".join(self.dealerCards)
                             print(f"The dealer has: {newDealerCards}")
                             if sum(self.dealerCardValue) > 21:
@@ -189,7 +215,8 @@ class Game:
                         else:
                             newCard = Hand.add_to_hand()
                             self.playerCards += newCard
-                            self.playerCardValue.append(Game.value(newCard[0]))
+                            self.playerCardValue.pop()
+                            self.playerCardValue.append(Game.value(self.playerCards))
                             newPlayerCards = ", ".join(self.playerCards)
                             print(f"You now have: {newPlayerCards}")
                             if sum(self.playerCardValue) > 21:
@@ -205,11 +232,16 @@ class Game:
                                 newCard = Hand.deck.deal(1)[:2]
                                 print(f"Dealer hits and is dealt: {newCard[0]}")
                                 self.dealerCards += newCard
-                                self.dealerCardValue.append(Game.value(newCard[0]))
+                                self.dealerCardValue.pop()
+                                self.dealerCardValue.append(
+                                    Game.value(self.dealerCards)
+                                )
                                 newDealerCards = ", ".join(self.dealerCards)
                                 print(f"The dealer has: {newDealerCards}")
                                 if sum(self.dealerCardValue) > 21:
-                                    print(f"The dealer busts, you win ${2*self.bet} :)")
+                                    print(
+                                        f"It is a {len(self.dealerCards)} card bust for the dealer, you win ${2*self.bet} :)"
+                                    )
                                     self.player.balance += 2 * self.bet
                                     end = True
                                     break
