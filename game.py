@@ -1,5 +1,6 @@
 from deck import Deck
 from hand import Hand
+import time
 
 
 class Game:
@@ -42,7 +43,7 @@ class Game:
     def start_game(self):
         while self.player.balance > 0:
             playGame = input(
-                f"You are starting with ${self.player.balance}. Would you like to play a hand? "
+                f"You are starting with ${int(self.player.balance)}. Would you like to play a hand? "
             )
             self.playerCards = []
             self.dealerCards = []
@@ -84,7 +85,7 @@ class Game:
                     else:
                         print(f"You won ${1.5*self.bet} :)")
                         end = True
-                        self.player.balance += 1.5*self.bet
+                        self.player.balance += 1.5 * self.bet
 
                 if self.dealerCards[0][0] == "A" and end == False:
                     if self.player.balance > 1.5 * self.bet:
@@ -101,7 +102,7 @@ class Game:
                         else:
                             if sum(self.dealerCardValue) == 21:
                                 print("The dealer has blackjack.")
-                                print(f"You lost ${1.5 * self.bet} :(")
+                                print(f"You lost ${self.bet} :(")
                                 end = True
                                 self.player.balance -= self.bet
                     else:
@@ -139,6 +140,7 @@ class Game:
                             print(f"The dealer has: {newDealerCards}")
                             while sum(self.dealerCardValue) < 17:
                                 newCard = Hand.deck.deal(1)[:2]
+                                time.sleep(1)
                                 print(f"Dealer hits and is dealt: {newCard[0]}")
                                 self.dealerCards += newCard
                                 self.dealerCardValue.pop()
@@ -146,8 +148,10 @@ class Game:
                                     Game.value(self.dealerCards)
                                 )
                                 newDealerCards = ", ".join(self.dealerCards)
+                                time.sleep(1)
                                 print(f"The dealer has: {newDealerCards}")
                                 if sum(self.dealerCardValue) > 21:
+                                    time.sleep(1)
                                     print(
                                         f"It is a {len(self.dealerCards)} card bust for the dealer, you win ${self.bet} :)"
                                     )
@@ -155,10 +159,12 @@ class Game:
                                     end = True
                                     break
                             if end == False:
+                                time.sleep(1)
                                 print("Dealer stands.")
                                 if sum(self.dealerCardValue) > sum(
                                     self.playerCardValue
                                 ):
+                                    time.sleep(1)
                                     print(f"The dealer wins, you lose ${self.bet} :(")
                                     self.player.balance -= self.bet
                                     end = True
@@ -166,26 +172,32 @@ class Game:
                                 elif sum(self.dealerCardValue) == sum(
                                     self.playerCardValue
                                 ):
+                                    time.sleep(1)
                                     print("You tie. Your bet has been returned.")
                                     end = True
                                     break
                                 else:
+                                    time.sleep(1)
                                     print(f"You win ${self.bet}!")
                                     self.player.balance += self.bet
                                     end = True
                                     break
                     elif action.lower() == "stand" and end == False:
                         newDealerCards = ", ".join(self.dealerCards)
+                        time.sleep(1)
                         print(f"The dealer has: {newDealerCards}")
                         while sum(self.dealerCardValue) < 17:
                             newCard = Hand.deck.deal(1)[:2]
+                            time.sleep(1)
                             print(f"Dealer hits and is dealt: {newCard[0]}")
                             self.dealerCards += newCard
                             self.dealerCardValue.pop()
                             self.dealerCardValue.append(Game.value(self.dealerCards))
                             newDealerCards = ", ".join(self.dealerCards)
+                            time.sleep(1)
                             print(f"The dealer has: {newDealerCards}")
                             if sum(self.dealerCardValue) > 21:
+                                time.sleep(1)
                                 print(
                                     f"It is a {len(self.dealerCards)} card bust for the dealer, you win ${self.bet} :)"
                                 )
@@ -193,17 +205,21 @@ class Game:
                                 end = True
                                 break
                         if end == False:
+                            time.sleep(1)
                             print("Dealer stands.")
                             if sum(self.dealerCardValue) > sum(self.playerCardValue):
+                                time.sleep(1)
                                 print(f"The dealer wins, you lose ${self.bet} :(")
                                 self.player.balance -= self.bet
                                 end = True
                                 break
                             elif sum(self.dealerCardValue) == sum(self.playerCardValue):
+                                time.sleep(1)
                                 print("You tie. Your bet has been returned.")
                                 end = True
                                 break
                             else:
+                                time.sleep(1)
                                 print(f"You win ${self.bet}!")
                                 self.player.balance += self.bet
                                 end = True
@@ -227,9 +243,11 @@ class Game:
                                 end = True
                                 break
                             newDealerCards = ", ".join(self.dealerCards)
+                            time.sleep(1)
                             print(f"The dealer has: {newDealerCards}")
                             while sum(self.dealerCardValue) < 17:
                                 newCard = Hand.deck.deal(1)[:2]
+                                time.sleep(1)
                                 print(f"Dealer hits and is dealt: {newCard[0]}")
                                 self.dealerCards += newCard
                                 self.dealerCardValue.pop()
@@ -237,8 +255,10 @@ class Game:
                                     Game.value(self.dealerCards)
                                 )
                                 newDealerCards = ", ".join(self.dealerCards)
+                                time.sleep(1)
                                 print(f"The dealer has: {newDealerCards}")
                                 if sum(self.dealerCardValue) > 21:
+                                    time.sleep(1)
                                     print(
                                         f"It is a {len(self.dealerCards)} card bust for the dealer, you win ${2*self.bet} :)"
                                     )
@@ -246,6 +266,7 @@ class Game:
                                     end = True
                                     break
                             if end == False:
+                                time.sleep(1)
                                 print("Dealer stands.")
                                 if sum(self.dealerCardValue) > sum(
                                     self.playerCardValue

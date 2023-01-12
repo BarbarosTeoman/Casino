@@ -1,7 +1,7 @@
 from player import Player
 from game import Game
 
-STARTING_BALANCE = 500
+STARTING_BALANCE = 100
 player = Player(STARTING_BALANCE)
 game = Game(player)
 
