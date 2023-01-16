@@ -1,5 +1,5 @@
 from deck import Deck
-from hand import Hand
+from blackjack.hand import Hand
 import time
 
 
