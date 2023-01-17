@@ -59,10 +59,10 @@ class blackjackGame:
                     if self.bet < 1:
                         print("The minimum bet is $1.")
                         self.bet = int(input("Place your bet: "))
-                        break
-                    print("You do not have sufficient funds.")
-                    self.bet = int(input("Place your bet: "))
-                    break
+                    else:
+                        print("You do not have sufficient funds.")
+                        self.bet = int(input("Place your bet: "))
+
                 self.deck.create_deck()
                 self.deck.shuffle()
                 self.playerCards = self.deck.deal(2)
@@ -300,7 +300,5 @@ class blackjackGame:
                 return lobby
             else:
                 print("Invalid option.")
-        print(
-            "You've ran out of money. Please restart this program to try again. Goodbye."
-        )
+        print("You've ran out of money.")
         return None

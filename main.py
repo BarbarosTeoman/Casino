@@ -21,6 +21,8 @@ while lobby == True:
         break
     elif gameChoice.lower() == "blackjack":
         lobby = blackjackgame.start_game()
+    elif gameChoice.lower() == "dragon tiger":
+        lobby = dragontigergame.start_game()
 time.sleep(1)
 if player.balance > STARTING_BALANCE:
     print(
