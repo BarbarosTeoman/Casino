@@ -1,9 +1,9 @@
 from deck import Deck
-from blackjack.hand import Hand
+from hand import Hand
 import time
 
 
-class Game:
+class blackjackGame:
     def __init__(self, player):
         self.player = player
         self.bet = None
@@ -53,6 +53,7 @@ class Game:
             end = False
 
             if playGame.lower() == "yes" and end == False:
+                lobby = False
                 self.bet = int(input("Place your bet: "))
                 while self.bet < 1 or self.bet > self.player.balance:
                     if self.bet < 1:
@@ -65,10 +66,10 @@ class Game:
                 self.deck.create_deck()
                 self.deck.shuffle()
                 self.playerCards = self.deck.deal(2)
-                self.playerCardValue.append(Game.value(self.playerCards))
+                self.playerCardValue.append(blackjackGame.value(self.playerCards))
                 newPlayerCards = ", ".join(self.playerCards)
                 self.dealerCards = self.deck.deal(2)
-                self.dealerCardValue.append(Game.value(self.dealerCards))
+                self.dealerCardValue.append(blackjackGame.value(self.dealerCards))
                 newDealerCards = ", ".join(self.dealerCards)
                 print(f"You are dealt: {newPlayerCards}")
                 print(f"The dealer is dealt: {newDealerCards[:2]}, Unknown")
@@ -127,7 +128,9 @@ class Game:
                         newCard = Hand.add_to_hand()
                         self.playerCards += newCard
                         self.playerCardValue.pop()
-                        self.playerCardValue.append(Game.value(self.playerCards))
+                        self.playerCardValue.append(
+                            blackjackGame.value(self.playerCards)
+                        )
                         newPlayerCards = ", ".join(self.playerCards)
                         print(f"You now have: {newPlayerCards}")
                         if sum(self.playerCardValue) > 21:
@@ -145,7 +148,7 @@ class Game:
                                 self.dealerCards += newCard
                                 self.dealerCardValue.pop()
                                 self.dealerCardValue.append(
-                                    Game.value(self.dealerCards)
+                                    blackjackGame.value(self.dealerCards)
                                 )
                                 newDealerCards = ", ".join(self.dealerCards)
                                 time.sleep(1)
@@ -192,7 +195,9 @@ class Game:
                             print(f"Dealer hits and is dealt: {newCard[0]}")
                             self.dealerCards += newCard
                             self.dealerCardValue.pop()
-                            self.dealerCardValue.append(Game.value(self.dealerCards))
+                            self.dealerCardValue.append(
+                                blackjackGame.value(self.dealerCards)
+                            )
                             newDealerCards = ", ".join(self.dealerCards)
                             time.sleep(1)
                             print(f"The dealer has: {newDealerCards}")
@@ -232,7 +237,9 @@ class Game:
                             newCard = Hand.add_to_hand()
                             self.playerCards += newCard
                             self.playerCardValue.pop()
-                            self.playerCardValue.append(Game.value(self.playerCards))
+                            self.playerCardValue.append(
+                                blackjackGame.value(self.playerCards)
+                            )
                             newPlayerCards = ", ".join(self.playerCards)
                             print(f"You now have: {newPlayerCards}")
                             if sum(self.playerCardValue) > 21:
@@ -252,7 +259,7 @@ class Game:
                                 self.dealerCards += newCard
                                 self.dealerCardValue.pop()
                                 self.dealerCardValue.append(
-                                    Game.value(self.dealerCards)
+                                    blackjackGame.value(self.dealerCards)
                                 )
                                 newDealerCards = ", ".join(self.dealerCards)
                                 time.sleep(1)
@@ -289,8 +296,8 @@ class Game:
                     else:
                         print("That is not a valid option.")
             elif playGame.lower() == "no":
-                print(f"You have ${self.player.balance} left. Goodbye.")
-                return None
+                lobby = True
+                return lobby
             else:
                 print("Invalid option.")
         print(
