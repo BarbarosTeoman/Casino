@@ -1,10 +1,12 @@
 import time
 from player import Player
 from blackjackgame import blackjackGame
+from dragontigergame import dragontigerGame
 
 STARTING_BALANCE = 500
 player = Player(STARTING_BALANCE)
 blackjackgame = blackjackGame(player)
+dragontigergame = dragontigerGame(player)
 
 print("Welcome to the Casino!")
 lobby = True
