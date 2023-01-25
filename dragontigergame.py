@@ -40,9 +40,41 @@ class dragontigerGame:
                                     print("Minimum bet is $1")
                                     bet = input("Place your bets: ")
                                     Bet = False
-                                    
+
+                for i,k in enumerate(bet.split(" ")):
+                    if i % 2 == 1:
+                        self.player.balance -= int(k)
+
                 self.deck.create_deck()
                 self.deck.shuffle()
+                dragon = self.deck.deal(1)
+                tiger = self.deck.deal(1)
+                print("   DRAGON         TIGER")
+                print("  --------       -------")
+                print(f"   {dragon}      {tiger}")
+
+                def winner():
+                    if dragontigerGame.value(dragon[0]) > dragontigerGame.value(tiger[0]):
+                        return "dragon"
+
+                    if dragontigerGame.value(dragon[0]) < dragontigerGame.value(tiger[0]):
+                        return "tiger"
+                    
+                    if dragontigerGame.value(dragon[0]) == dragontigerGame.value(tiger[0]):
+                        return "tie"
+                
+                dragonBet = int(splittedBet[splittedBet.index("dragon")+1])
+                tigerBet = int(splittedBet[splittedBet.index("tiger")+1])
+                tieBet = int(splittedBet[splittedBet.index("tie")+1])
+                ptieBet = int(splittedBet[splittedBet.index("ptie")+1])
+
+                if winner() == "dragon":
+                    if "dragon" in splittedBet:
+                        self.player.balance += 2*dragonBet
+                        print(f"Congrats dragon won, you won {2*dragonBet}")
+                    else:
+                        print(f"Congrats dragon won, you won {2*dragonBet}")
+
 
             elif playGame.lower() == "no":
                 lobby = True
