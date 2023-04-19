@@ -37,8 +37,8 @@ This is a simple command-line blackjack game written in Python. The game allows 
 + deck.py: Contains the Deck class for creating and managing a deck of cards.
 + hand.py: Contains the Hand class for managing a player's hand of cards.
 + blackjackGame.py: Contains the blackjackGame class, which handles the game logic and user interface.
-## Note
-+ This game is for entertainment purposes only and does not involve real money gambling.
+## ‼️**Note**‼️
++ **This game is for entertainment purposes only and does not involve real money gambling.**
 # 2. Dragon Tiger
 <h2 align="center">
 Work in Progress
