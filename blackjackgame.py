@@ -54,7 +54,10 @@ class blackjackGame:
 
             if playGame.lower() == "yes" and end == False:
                 lobby = False
-                self.bet = int(input("Place your bet: "))
+                self.bet = input("Place your bet: ")
+                if self.bet == "all in":
+                    self.bet = self.player.balance
+                self.bet = int(self.bet)
                 while self.bet < 1 or self.bet > self.player.balance:
                     if self.bet < 1:
                         print("The minimum bet is $1.")
@@ -79,10 +82,9 @@ class blackjackGame:
                     print(f"The dealer has: {newDealerCards}")
                     if sum(self.dealerCardValue) == 21:
                         print(
-                            f"You both have blackjacks, the dealer has won. You lose ${self.bet}."
+                            f"You both have blackjacks, it is a push. You got your money back."
                         )
                         end = True
-                        self.player.balance -= self.bet
                     else:
                         print(f"You won ${1.5*self.bet} :)")
                         end = True
@@ -176,7 +178,7 @@ class blackjackGame:
                                     self.playerCardValue
                                 ):
                                     time.sleep(1)
-                                    print("You tie. Your bet has been returned.")
+                                    print("It is a push. Your bet has been returned.")
                                     end = True
                                     break
                                 else:
@@ -220,7 +222,7 @@ class blackjackGame:
                                 break
                             elif sum(self.dealerCardValue) == sum(self.playerCardValue):
                                 time.sleep(1)
-                                print("You tie. Your bet has been returned.")
+                                print("It is a push. Your bet has been returned.")
                                 end = True
                                 break
                             else:
@@ -285,7 +287,7 @@ class blackjackGame:
                                 elif sum(self.dealerCardValue) == sum(
                                     self.playerCardValue
                                 ):
-                                    print("You tie. Your bet has been returned.")
+                                    print("It is a push. Your bet has been returned.")
                                     end = True
                                     break
                                 else:
